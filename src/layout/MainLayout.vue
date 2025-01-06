@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import Header from "./Header.vue";
-import SideNav from "./sidenav/SideNav.vue";
-import DefaultTable from "@/components/table/TableView.vue";
+/*import Header from './Header.vue';
+import SideNav from './sidenav/SideNav.vue';*/
+import DefaultTable from '@/components/table/TableView.vue';
 </script>
 
 <template>
-  <DefaultTable />
-<!--  <Header />
+    <div class="main">
+        <DefaultTable />
+        <RouterView />
+    </div>
+
+    <!--  <Header />
   <SideNav />-->
-  <RouterView />
+
 </template>
+
+<style scoped>
+
+</style>
