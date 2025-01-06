@@ -1,31 +1,39 @@
 {
-  "name": "bimo",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite & vue-tsc --noEmit --watch",
-    "build": "npm run clean && vue-tsc -b && vite build",
-    "preview": "vite"
-  },
-  "dependencies": {
-    "@faker-js/faker": "^9.3.0",
-    "@supabase/supabase-js": "^2.47.10",
-    "@tabler/icons-vue": "^3.26.0",
-    "dotenv": "^16.4.7",
-    "faker": "^6.6.6",
-    "pinia": "^2.3.0",
-    "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.1",
-    "@vue/tsconfig": "^0.7.0",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17",
-    "typescript": "~5.6.2",
-    "vite": "^6.0.5",
-    "vue-tsc": "^2.2.0"
-  }
+    "name": "bimo",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite & vue-tsc --noEmit --watch",
+        "build": "npm run clean && vue-tsc -b && vite build",
+        "preview": "vite",
+        "lint": "eslint . --fix",
+        "format": "prettier --write .",
+        "format:check": "prettier --check ."
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.47.10",
+        "@tabler/icons-vue": "^3.26.0",
+        "@vueuse/core": "^12.2.0",
+        "dotenv": "^16.4.7",
+        "pinia": "^2.3.0",
+        "vue": "^3.5.13",
+        "vue-router": "^4.5.0"
+    },
+    "devDependencies": {
+        "@faker-js/faker": "^9.3.0",
+        "@vitejs/plugin-vue": "^5.2.1",
+        "@vue/tsconfig": "^0.7.0",
+        "autoprefixer": "^10.4.20",
+        "eslint": "^8.57.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-vue": "^9.28.0",
+        "postcss": "^8.4.49",
+        "prettier": "^3.4.2",
+        "tailwindcss": "^3.4.17",
+        "typescript": "~5.6.2",
+        "typescript-eslint": "^8.8.1",
+        "vite": "^6.0.5",
+        "vue-tsc": "^2.2.0"
+    }
 }

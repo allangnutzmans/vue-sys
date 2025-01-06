@@ -1,34 +1,31 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "noEmit": false,
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "noImplicitAny": false,
-    "strict": true,
-    "jsx": "preserve",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
-    "lib": ["dom", "esnext"],
-    "paths": {
-      "@/*": ["./src/*"],
-      "typeRoots": ["./node_modules/@types","./src/types"],
+    "compilerOptions": {
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "noEmit": false,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "noImplicitAny": false,
+        "strict": true,
+        "jsx": "preserve",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "baseUrl": ".",
+        "lib": ["dom", "esnext"],
+        "paths": {
+            "@/*": ["./src/*"],
+            "typeRoots": ["./node_modules/@types", "./src/types"]
+        },
+        "allowJs": true
     },
-    "allowJs": true
-  },
-  "exclude": [
-    "src/_modules/ui/table/advanced/TableAdvanced.vue",
-    "src/_modules/ui/table/basic/BasicTable.vue"
-  ],
-  "include": ["src/**/*", "src/**/*.vue", "src/types/**/*.d.ts"],
-  "references": [
-    {
-      "path": "./tsconfig.vite-config.json"
-    }
-  ]
+    "exclude": ["src/_modules/ui/table/advanced/TableAdvanced.vue", "src/_modules/ui/table/basic/BasicTable.vue"],
+    "include": ["src/**/*", "src/**/*.vue", "src/types/**/*.d.ts"],
+    "references": [
+        {
+            "path": "./tsconfig.vite-config.json"
+        }
+    ]
 }
