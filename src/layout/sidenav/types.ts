@@ -1,4 +1,4 @@
-import type { Icon as IconType } from "@tabler/icons-vue";
+import type { Icon as IconType } from '@tabler/icons-vue';
 
 export type NavItemType = {
     label: string;
@@ -8,4 +8,4 @@ export type NavItemType = {
 } & (
     | { to: string; children?: never } // Se não tiver children, to deve ser uma string
     | { to?: never; children: NavItemType[] } // Se tiver children, to deve ser omitido
-    );
+);
