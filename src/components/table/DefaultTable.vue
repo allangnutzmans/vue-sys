@@ -1,72 +1,109 @@
-<script setup lang="ts">
-import { defineProps } from 'vue';
-import SProgerssBar from "@/components/core/SProgerssBar.vue";
+<script setup lang="ts" generic="T">
+import { defineProps, ref, computed } from 'vue';
+import SProgerssBar from '@/components/core/SProgerssBar.vue';
+import TableFooter from '@/components/table/TableFooter.vue';
 
-const props = withDefaults(defineProps<{
-  header?: { title: string; key: string }[];
-  items?: any[];
-  loading?: boolean;
-}>(),{
-  items: () => [],
+const props = withDefaults(
+    defineProps<{
+        header?: { title: string; key: string }[];
+        items?: T[];
+        loading?: boolean;
+    }>(),
+    {
+        items: () => []
+    }
+);
+
+const currentPage = ref(1);
+const itemsPerPage = ref(10);
+function updateItemsPerPage(value: number) {
+    itemsPerPage.value = value;
+}
+
+const totalPages = computed(() => {
+    return Math.ceil(props.items.length / itemsPerPage.value);
 });
+
+const paginatedItems = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage.value;
+    const end = currentPage.value * itemsPerPage.value;
+    return props.items.slice(start, end);
+});
+
+function goToPage(page: number) {
+    if (page < 1) page = 1;
+    if (page > totalPages.value) page = totalPages.value;
+    currentPage.value = page;
+}
+
+function nextPage() {
+    if (currentPage.value < totalPages.value) {
+        currentPage.value++;
+    }
+}
+
+function prevPage() {
+    if (currentPage.value > 1) {
+        currentPage.value--;
+    }
+}
 </script>
 
 <template>
-  <SProgerssBar v-if="loading" />
-  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-    <!-- Cabeçalho da Tabela -->
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <SProgerssBar v-if="props.loading" />
+    <div class="table-wrapper overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <!-- Cabeçalho da Tabela -->
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
+            <tr>
+                <th v-for="(col, index) in props.header" :key="index" scope="col" class="px-4 py-3">
+                    {{ col.title }}
+                </th>
+            </tr>
+            </thead>
 
-    <tr>
-      <th
-          v-for="(col, index) in props.header"
-          :key="index"
-          scope="col"
-          class="px-4 py-3"
-      >
-        {{ col.title }}
-      </th>
-      <th scope="col" class="px-4 py-3">
-        <!-- Ações -->
-      </th>
-    </tr>
-    </thead>
+            <!-- Corpo da Tabela -->
+            <tbody class="table-body" v-if="paginatedItems.length > 0 && !props.loading">
+            <tr v-for="(item, index) in paginatedItems" :key="index" class="border-b dark:border-gray-700">
+                <td v-for="col in props.header" :key="col.key" class="px-4 py-3">
+                    <slot :name="col.key" :item="item as T" />
+                    <template v-if="!$slots[col.key]">{{ item[col.key] }}</template>
+                </td>
+            </tr>
+            </tbody>
 
-    <!-- Corpo da Tabela -->
-    <tbody v-if="props.items.length > 0 && !props.loading">
-    <tr v-for="(item, index) in props.items" :key="index" class="border-b dark:border-gray-700">
-      <td v-for="col in props.header" :key="col.key" class="px-4 py-3">
-        {{ item[col.key] }}
-      </td>
-      <td class="px-4 py-3 flex items-center justify-end">
-        <!-- Botão de Ações -->
-        <button id="dropdown-button" data-dropdown-toggle="dropdown" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
-          <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-          </svg>
-        </button>
-        <div id="dropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-          <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
-            <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a></li>
-            <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a></li>
-          </ul>
-          <div class="py-1">
-            <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
-          </div>
-        </div>
-      </td>
-    </tr>
-    </tbody>
+            <!-- Exibição de Tabela Vazia -->
+            <tbody v-if="paginatedItems.length === 0 && !props.loading">
+            <tr>
+                <td colspan="100%" class="px-4 py-3 text-center">This table is empty.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <!-- Exibição de Tabela Vazia -->
-    <tbody  v-if="props.items.length === 0 && !props.loading">
-    <tr>
-      <td colspan="100%" class="px-4 py-3 text-center">This table is empty.</td>
-    </tr>
-    </tbody>
-  </table>
+    <TableFooter
+        :current-page="currentPage"
+        :totalItems="items.length"
+        :total-pages="totalPages"
+        :items-per-page="itemsPerPage"
+        @next-page="nextPage"
+        @prev-page="prevPage"
+        @first-page="goToPage(1)"
+        @last-page="goToPage(totalPages)"
+        @update-items-per-page="updateItemsPerPage"
+    />
 </template>
 
 <style scoped>
-/* Estilos específicos para a tabela */
+.table-wrapper {
+    min-height: calc(100vh - 285px);
+    max-height: calc(100vh - 285px);
+    overflow-y: auto;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
 </style>
