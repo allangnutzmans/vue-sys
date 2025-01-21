@@ -3,20 +3,17 @@ import type { navLink } from '@/types/navigation.ts';
 
 const header: navLink[] = [
     { label: 'Home', to: '/' },
-    { label: 'Company', to: '/company' },
-    { label: 'Marketplace', to: '/marketplace' },
-    { label: 'Features', to: '/features' },
-    { label: 'Team', to: '/team' },
-    { label: 'Contact', to: '/contact' }
+    { label: 'Games', to: '/games' },
+    { label: 'Users', to: '/users' },
 ];
 </script>
 
 <template>
-    <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+    <nav class="border drop-shadow-sm bg-white px-4 lg:px-6 py-2.5 dark:bg-gray-800">
         <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-            <a href="https://flowbite.com" class="flex items-center">
+            <a href="/" class="flex items-center">
                 <img src="https://flowbite.com/docs/images/logo.svg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
-                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-gray-700">Gamification</span>
             </a>
             <div class="flex items-center lg:order-2">
                 <a
@@ -58,7 +55,7 @@ const header: navLink[] = [
                     <li v-for="link in header" :key="link.label">
                         <RouterLink
                             :to="link.to"
-                            class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                            class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 cursor-pointer"
                         >
                             {{ link.label }}
                         </RouterLink>

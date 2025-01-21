@@ -23,13 +23,15 @@ const generateDummyGamificationData = (numRecords) => {
 
     for (let i = 0; i < numRecords; i++) {
         dummyData.push({
-            user_id: faker.number.int({ min: 100, max: 1000000 }), // Use crypto to generate a unique user_id
+            game_name: faker.company.buzzNoun(),
+            id: faker.number.int({ min: 100, max: 1000000 }), // Use crypto to generate a unique user_id
             points: faker.number.int({ min: 100, max: 1000 }), // Random points
             level: faker.number.int({ min: 1, max: 10 }), // Random level
-            badges: faker.helpers.shuffle(['Beginner', 'Explorer', 'Achiever', 'Master', 'Veteran']), // Random badges as an array
+            badges: faker.helpers.arrayElement(['Beginner', 'Explorer', 'Achiever', 'Master', 'Veteran']),
             last_activity: faker.date.recent(),
             created_at: faker.date.past(),
             updated_at: faker.date.recent()
+
         });
     }
 

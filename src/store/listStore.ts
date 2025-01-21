@@ -1,9 +1,17 @@
 // stores/Gamification.ts
 import { defineStore } from 'pinia';
 import supabase from '@/service/supabase';
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 
+export type Product = {
+    id? : string;
+    game_name : string;
+    points: number;
+    level: number;
+    badges: "Master" | "Beginner" | "Veteran" | "Achiever" | "Explorer"
+}
 
+const item: Ref<Product> = ref({} as Product);
 export const useListStore = defineStore('gamification',  <T>() =>{
     const list = ref<T[] | null>([]);
     const loading = ref(false);
@@ -12,17 +20,20 @@ export const useListStore = defineStore('gamification',  <T>() =>{
         loading.value = true;
         const { data, error } = await supabase
             .from('gamification')
-            .insert([item]);
-
+            .insert([item])
+            .select();
         if (error) {
             console.error('Erro ao criar gamificação:', error);
         } else {
-            list.value.push(...data);
+            list.value.push(data[0]);
         }
         loading.value = false;
     };
 
-    // Obter todos os registros de gamificação
+    const setItem = (_item: Product) => {
+        item.value = _item;
+    }
+
     const getList = async () => {
         loading.value = true;
         const { data, error } = await supabase.from('gamification').select();
@@ -43,25 +54,27 @@ export const useListStore = defineStore('gamification',  <T>() =>{
         if (error) {
             console.error('Erro ao atualizar gamificação:', error);
         } else {
-            const index = list.value.findIndex(g => g.user_id === id);
+            const index = list.value.findIndex(g => g.id === id);
             if (index !== -1) {
                 list.value[index] = { ...list.value[index], ...updatedData };
             }
         }
     };
 
-    const deleteItem = async (id: number) => {
-        const { error } = await supabase.from('gamification').delete().eq('user_id', id);
+    const deleteItem = async (id: string) => {
+        const { error } = await supabase.from('gamification').delete().eq('id', id);
         if (error) {
             console.error('Unable to remove item:', error);
         } else {
-            list.value = list.value.filter(g => g.user_id !== id);
+            list.value = list.value.filter(g => g.id !== id);
         }
     };
 
     return {
         list,
+        item,
         loading,
+        setItem,
         createItem,
         getList,
         updateItem,

@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useDialog } from '@/components/core/useDialog';
 import SDefaultDialog from '@/components/core/SDefaultDialog.vue';
 import SConfirmDialog from '@/components/core/SConfirmDialog.vue';
-import { onClickOutside } from '@vueuse/core';
 
 const props = withDefaults(defineProps<{
     variant?: 'default' | 'confirm';
@@ -17,8 +15,12 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-    <SDefaultDialog v-bind="props" v-if="variant === 'default'" />
-    <SConfirmDialog v-bind="props" v-if="variant === 'confirm'" />
+    <SDefaultDialog v-bind="props" v-if="variant === 'default'">
+        <slot />
+    </SDefaultDialog>
+    <SConfirmDialog v-bind="props" v-if="variant === 'confirm'" >
+        <slot />
+    </SConfirmDialog>
 </template>
 
 <style scoped>
