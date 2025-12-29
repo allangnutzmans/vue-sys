@@ -12,7 +12,7 @@ export type Product = {
 }
 
 const item: Ref<Product> = ref({} as Product);
-export const useListStore = defineStore('gamification',  <T>() =>{
+export const useGameStore = defineStore('gamification',  <T>() =>{
     const list = ref<T[] | null>([]);
     const loading = ref(false);
 

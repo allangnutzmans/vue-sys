@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import DefaultTable from '../components/table/DefaultTable.vue';
+
 import TableHead from '@/components/table/TableHead.vue';
 import { nextTick, onMounted } from 'vue';
 import SMenu from '@/components/core/dropdown/SMenu.vue';
 import SButton from '@/components/core/SButton.vue';
 import { IconPlus } from '@tabler/icons-vue';
-import { Product, useListStore } from '@/store/listStore';
+import { Product, useGameStore } from '@/store/game-store';
 import { storeToRefs } from 'pinia';
 import SListItem from '@/components/core/dropdown/SListItem.vue';
 import { useDialog } from '@/components/core/useDialog';
 import SDialog from '@/components/core/SDialog.vue';
-import FormView from '@/views/FormView.vue';
+
 import SBadge from '@/components/core/SBadge.vue';
+import UsersFormView from '@/views/users/UsersFormView.vue';
+import DefaultTable from '@/components/table/DefaultTable.vue';
 
 const header = [
     { title: 'Game', key: 'game_name' },
@@ -24,7 +26,7 @@ const header = [
 ];
 
 const { openDialog } = useDialog('form')
-const listStore = useListStore();
+const listStore = useGameStore();
 const { item: product, list, loading } = storeToRefs(listStore);
 
 
@@ -65,7 +67,7 @@ function cancel() {
         :onCancel="cancel"
         id="form"
     >
-        <FormView />
+        <UsersFormView />
     </SDialog>
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
         <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
